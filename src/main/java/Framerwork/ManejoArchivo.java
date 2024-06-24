@@ -25,55 +25,47 @@ public class ManejoArchivo {
         this.outputfile = "./data/ejercicios/" + output;
     }
 
-    /**
-     * OBtiene  los datos de un arhivo de texto y los guarda en una sola Cadena de Texto.
-     *
-     * @param nodos Los nodos
-     * @return Retorna una lista de tupla.
-     */
-    public ArrayList<Tupla> generarBufferMaps(int nodos) {
+
+ public ArrayList<Tupla> crearBufferMaps(int numeroNodos) {
         System.out.println("Examinando archivo...");
-        ArrayList<Tupla> listTupla = new ArrayList<>();
-        StringBuffer sb = new StringBuffer();
+        ArrayList<Tupla> listaTuplas = new ArrayList<>();
+        StringBuilder contenidoArchivo = new StringBuilder();
         try {
-            File file = new File(inputFile);
-            if (file.exists()) {
-                try (BufferedReader input = new BufferedReader(new FileReader(inputFile))) {
-                    String line;
-                    while ((line = input.readLine()) != null) {
-                        sb.append(line.trim()).append(" ");
+            File archivo = new File(inputFile);
+            if (archivo.exists()) {
+                try (BufferedReader lector = new BufferedReader(new FileReader(inputFile))) {
+                    String linea;
+                    while ((linea = lector.readLine()) != null) {
+                        contenidoArchivo.append(linea.trim()).append(" ");
                     }
                 } finally {
-                    int hash = sb.hashCode() % nodos;
-                    listTupla.add(new Tupla(hash, sb));
+                    int hash = contenidoArchivo.toString().hashCode() % numeroNodos;
+                    listaTuplas.add(new Tupla(hash, contenidoArchivo.toString()));
                 }
             }
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        return listTupla;
+        return listaTuplas;
     }
 
-    /**
-     * Guarda el resultado en un arhivo de texto
-     *
-     * @param resultado Lista de tuplas con el resultado.
-     */
-    public void guardar(ArrayList<Tupla> resultado) {
+
+    public void guardarArchivo(ArrayList<Tupla> resultados) {
         try {
-            File file = new File(this.outputfile);
-            if (file.exists()) {
-                file.delete();
+            File archivo = new File(outputfile);
+            if (archivo.exists()) {
+                archivo.delete();
             }
-            FileWriter myWriter = new FileWriter(this.outputfile);
-            for (Tupla tupla : resultado) {
-                myWriter.write(tupla.getClave() + " " + tupla.getValor() + "\n");
+            try (FileWriter escritor = new FileWriter(outputfile)) {
+                for (Tupla tupla : resultados) {
+                    escritor.write(tupla.getClave() + " " + tupla.getValor() + "\n");
+                }
             }
-            myWriter.close();
-            System.out.println("Archivo creado exitosamente.");
+            System.out.println("Archivo guardado exitosamente.");
         } catch (IOException e) {
-            System.out.println("Ocurrió un error al escribir el archivo.");
+            System.out.println("Error al escribir el archivo.");
             e.printStackTrace();
         }
     }
 }
+

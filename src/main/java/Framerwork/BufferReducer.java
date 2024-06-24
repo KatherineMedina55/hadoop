@@ -11,23 +11,18 @@ import java.util.ArrayList;
  * @author andjo
  */
 public class BufferReducer {
-       private int numReducer;
-    private ArrayList<Tupla> lstTuplas;
+     private int numeroReducidores;
+    private ArrayList<Tupla> listaTuplas;
 
-    public BufferReducer(int numReducer, ArrayList<Tupla> lstTuplas) {
-        super();
-        this.numReducer = numReducer;
-        this.lstTuplas = lstTuplas;
+ public BufferReducer(int numeroReducidores, ArrayList<Tupla> listaTuplas) {
+        this.numeroReducidores = numeroReducidores;
+        this.listaTuplas = listaTuplas;
     }
 
-    /**
-     * Devuelve la posicion de la tupla de la lista.
-     * @param tupla Tupla que se quiere encontrar.
-     * @return Posición de la tupla que será devuelta, en caso de no encontrar la tupla retorna -1.
-     */
+  
     public int buscarTuplaEnLst(Tupla tupla) {
-        for (int i = 0; i < lstTuplas.size(); i++) {
-            String claveTpTmp = ((String) (lstTuplas.get(i)).getClave());
+        for (int i = 0; i < listaTuplas.size(); i++) {
+            String claveTpTmp = ((String) (listaTuplas.get(i)).getClave());
             if (claveTpTmp.compareTo((String) tupla.getClave()) == 0) {
                 return i;
             }
@@ -35,30 +30,27 @@ public class BufferReducer {
         return -1;
     }
 
-    /**
-     * Agrega un tupla en la lista de tuplas.
-     *
-     * @param tp Tupla que será agregada.
-     */
-    public void agregarTuplaAlstTupla(Tupla tp) {
-        int index = buscarTuplaEnLst(tp);
-        if (index != -1) {
-            Tupla tptmp = lstTuplas.get(index);
-            ArrayList lastTmp = (ArrayList) tptmp.getValor();
-            lastTmp.add(tp.getValor());
-            lstTuplas.set(index, new Tupla(tp.getClave(), lastTmp));
+
+    
+     public void agregarTuplaAlstTupla(Tupla nuevaTupla) {
+        int indice = buscarTuplaEnLst(nuevaTupla);
+        if (indice != -1) {
+            Tupla tuplaExistente = listaTuplas.get(indice);
+            ArrayList<Object> valores = (ArrayList<Object>) tuplaExistente.getValor();
+            valores.add(nuevaTupla.getValor());
+            listaTuplas.set(indice, new Tupla(nuevaTupla.getClave(), valores));
         } else {
-            ArrayList lstTmp = new ArrayList();
-            lstTmp.add(tp.getValor());
-            lstTuplas.add(new Tupla(tp.getClave(), lstTmp));
+            ArrayList<Object> valores = new ArrayList<>();
+            valores.add(nuevaTupla.getValor());
+            listaTuplas.add(new Tupla(nuevaTupla.getClave(), valores));
         }
     }
 
     public int getNumReducer() {
-        return numReducer;
+        return numeroReducidores;
     }
 
     public ArrayList<Tupla> getLstTuplas() {
-        return lstTuplas;
+        return listaTuplas;
     } 
 }

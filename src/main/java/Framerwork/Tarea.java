@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 public class Tarea {
     private String inputFile;
     private String outputfile;
-    private int node;
+    private int numNodos;
 
     private MyMap mapFunction;
     private MapReduce reduceFunction;
@@ -25,45 +25,46 @@ public class Tarea {
         super();
         inputFile = "";
         outputfile = "";
-        node = 0;
+        numNodos = 0;
         mapFunction = null;
         reduceFunction = null;
         combinerFunction = "";
     }
       public void run() {
-        ManejoArchivo arhivoM = new ManejoArchivo(this.inputFile, this.outputfile);
+        ManejoArchivo gestionArchivo  = new ManejoArchivo(this.inputFile, this.outputfile);
 
         BufferMap bfm = new BufferMap();
         ArrayList<Tupla> resultado = new ArrayList<>();
-        ArrayList<Tupla> lstBuffers = arhivoM.generarBufferMaps(node);
-     if (lstBuffers.isEmpty()){
+        ArrayList<Tupla> Listabuffer  = gestionArchivo.crearBufferMaps(numNodos);
+     if (Listabuffer.isEmpty()){
             Logger.getAnonymousLogger().severe("No se ha podido cargar el archivo");
             return;
         }
         System.out.println("Iniciando proceso de Map");
-        for (Tupla tupla : lstBuffers) {
+        for (Tupla tupla : Listabuffer) {
             ArrayList<Tupla> output = new ArrayList<>();
             mapFunction.Map(tupla, output);
-            bfm.particionarBuffer(output, this.node);
+            bfm.particionarBuffer(output, this.numNodos);
         }
         System.out.println("Iniciando proceso de Ordenamiento");
-        bfm.ordenadoBuufer();
-        ArrayList<BufferReducer> lstOrdenada = bfm.getLstOrdenada();
+        bfm.ordenarBuffer();
+        ArrayList<BufferReducer> listaOrdenada = bfm.getLstOrdenada();
+       
         System.out.println("Iniciando proceso de Reduce");
-        for (BufferReducer bufferReducer : lstOrdenada) {
-            ArrayList<Tupla> lstTuplasReducer = bufferReducer.getLstTuplas();
-            for (Tupla tuplaReducer : lstTuplasReducer) {
+        for (BufferReducer bufferReducer : listaOrdenada) {
+            ArrayList<Tupla> listaTuplasReducer  = bufferReducer.getLstTuplas();
+            for (Tupla tuplaReducer : listaTuplasReducer ) {
                 reduceFunction.reduce(tuplaReducer, resultado);
             }
         }
         System.out.println("Guardando los datos en " + outputfile);
-        arhivoM.guardar(resultado);
+        gestionArchivo.guardarArchivo(resultado);
     }
 
     public Tarea(String inputFile, String outputfile, int node, MyMap mapFunction, MapReduce reduceFunction, Object combinerFunction) {
         this.inputFile = inputFile;
         this.outputfile = outputfile;
-        this.node = node;
+        this.numNodos = node;
         this.mapFunction = mapFunction;
         this.reduceFunction = reduceFunction;
         this.combinerFunction = combinerFunction;
@@ -78,7 +79,7 @@ public class Tarea {
     }
 
     public int getNode() {
-        return node;
+        return numNodos;
     }
 
     public MyMap getMapFunction() {
@@ -102,7 +103,7 @@ public class Tarea {
     }
 
     public void setNode(int node) {
-        this.node = node;
+        this.numNodos = node;
     }
 
     public void setMapFunction(MyMap mapFunction) {
@@ -116,13 +117,6 @@ public class Tarea {
     public void setCombinerFunction(Object combinerFunction) {
         this.combinerFunction = combinerFunction;
     }
-    
-    
-    
-    
-    
-    
-    
     
     
 }

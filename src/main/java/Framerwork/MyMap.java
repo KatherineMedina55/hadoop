@@ -18,12 +18,6 @@ public interface MyMap {
      * @param output
      */
     public void Map(Tupla elemento, ArrayList<Tupla> output);
-    
-    
-    
-    
-    
-    
-    
+   
     
 }
