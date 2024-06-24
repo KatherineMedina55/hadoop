@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Ejercicios;
-import Framerwork.BufferMap;
+import Framerwork.Particionador;
 import Framerwork.MyMap;
 import Framerwork.MapReduce;
 import Framerwork.Tarea;

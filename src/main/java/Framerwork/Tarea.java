@@ -31,9 +31,9 @@ public class Tarea {
         combinerFunction = "";
     }
       public void run() {
-        ManejoArchivo gestionArchivo  = new ManejoArchivo(this.inputFile, this.outputfile);
+        EntradaSalidaArchivos gestionArchivo  = new EntradaSalidaArchivos(this.inputFile, this.outputfile);
 
-        BufferMap bfm = new BufferMap();
+        Particionador bfm = new Particionador();
         ArrayList<Tupla> resultado = new ArrayList<>();
         ArrayList<Tupla> Listabuffer  = gestionArchivo.crearBufferMaps(numNodos);
      if (Listabuffer.isEmpty()){
@@ -48,10 +48,10 @@ public class Tarea {
         }
         System.out.println("Iniciando proceso de Ordenamiento");
         bfm.ordenarBuffer();
-        ArrayList<BufferReducer> listaOrdenada = bfm.getLstOrdenada();
+        ArrayList<NodoReduce> listaOrdenada = bfm.obtenerListaOrdenada();
        
         System.out.println("Iniciando proceso de Reduce");
-        for (BufferReducer bufferReducer : listaOrdenada) {
+        for (NodoReduce bufferReducer : listaOrdenada) {
             ArrayList<Tupla> listaTuplasReducer  = bufferReducer.getLstTuplas();
             for (Tupla tuplaReducer : listaTuplasReducer ) {
                 reduceFunction.reduce(tuplaReducer, resultado);

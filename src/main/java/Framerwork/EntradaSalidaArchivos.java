@@ -15,11 +15,11 @@ import java.util.ArrayList;
  *
  * @author andjo
  */
-public class ManejoArchivo {
+public class EntradaSalidaArchivos {
        String inputFile;
     String outputfile;
 
-    public ManejoArchivo(String inputFile, String output) {
+    public EntradaSalidaArchivos(String inputFile, String output) {
         super();
         this.inputFile = "./data/" + inputFile;
         this.outputfile = "./data/ejercicios/" + output;

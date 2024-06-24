@@ -10,34 +10,34 @@ import java.util.ArrayList;
  *
  * @author andjo
  */
-public class BufferMap {
+public class Particionador {
         private final ArrayList<Tupla> listaParticionada = new ArrayList<>();
-    private final ArrayList<BufferReducer> listaOrdenada = new ArrayList<>();
+    private final ArrayList<NodoReduce> listaOrdenada = new ArrayList<>();
 
 
-    public BufferMap() {
+    public Particionador() {
     }
 
-    public ArrayList<BufferReducer> getLstOrdenada() {
+    public ArrayList<NodoReduce> obtenerListaOrdenada() {
         return listaOrdenada;
     }
 
 
      public void particionarBuffer(ArrayList<Tupla> listaTuplas, int numReducers) {
         for (Tupla tupla : listaTuplas) {
-            int indice = tupla.getClave().hashCode() % numReducers;
-            listaParticionada.add(new Tupla(indice, tupla));
+            int nodoReducer  = tupla.getClave().hashCode() % numReducers;
+            listaParticionada.add(new Tupla(nodoReducer, tupla));
         }
     }
    
        public void ordenarBuffer() {
-        for (Tupla tupla : listaParticionada) {
-            int clave = (int) tupla.getClave();
-            int posicion = buscarbufferreduer(clave);
-            Tupla valorTupla = (Tupla) tupla.getValor();
+        for (Tupla particion  : listaParticionada) {
+            int clave = (int) particion .getClave();
+            int posicion = buscarbufferreducer(clave);
+            Tupla valorTupla = (Tupla) particion.getValor();
 
             if (posicion != -1) { // Si se encuentra la posición de la tupla
-                BufferReducer bufferReducer = listaOrdenada.get(posicion);
+                NodoReduce bufferReducer = listaOrdenada.get(posicion);
                 bufferReducer.agregarTuplaAlstTupla(valorTupla);
                 listaOrdenada.set(posicion, bufferReducer);
             } else { // Si no se encuentra, se agrega como una nueva entrada
@@ -45,16 +45,16 @@ public class BufferMap {
                 valoresTemporales.add(valorTupla.getValor());
                 ArrayList<Tupla> nuevaListaTuplas = new ArrayList<>();
                 nuevaListaTuplas.add(new Tupla(valorTupla.getClave(), valoresTemporales));
-                listaOrdenada.add(new BufferReducer(clave, nuevaListaTuplas));
+                listaOrdenada.add(new NodoReduce(clave, nuevaListaTuplas));
             }
         }
     }
 
 
 
-    public int buscarbufferreduer(int reducer) {
+    public int buscarbufferreducer(int reducer) {
         for (int i = 0; i < listaOrdenada.size(); i++) {
-            BufferReducer bufferReducer = listaOrdenada.get(i);
+            NodoReduce bufferReducer = listaOrdenada.get(i);
             if (bufferReducer.getNumReducer()== reducer) {
                 return i;
             }
@@ -66,7 +66,7 @@ public class BufferMap {
         return listaParticionada;
     }
     
-  public ArrayList<BufferReducer> getListaOrdenada() {
+  public ArrayList<NodoReduce> getListaOrdenada() {
         return listaOrdenada;
     }
 

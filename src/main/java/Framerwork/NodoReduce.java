@@ -5,16 +5,16 @@
 package Framerwork;
 
 import java.util.ArrayList;
-
+import java.util.List;
 /**
  *
  * @author andjo
  */
-public class BufferReducer {
+public class NodoReduce {
      private int numeroReducidores;
     private ArrayList<Tupla> listaTuplas;
 
- public BufferReducer(int numeroReducidores, ArrayList<Tupla> listaTuplas) {
+ public NodoReduce(int numeroReducidores, ArrayList<Tupla> listaTuplas) {
         this.numeroReducidores = numeroReducidores;
         this.listaTuplas = listaTuplas;
     }
@@ -30,8 +30,6 @@ public class BufferReducer {
         return -1;
     }
 
-
-    
      public void agregarTuplaAlstTupla(Tupla nuevaTupla) {
         int indice = buscarTuplaEnLst(nuevaTupla);
         if (indice != -1) {
