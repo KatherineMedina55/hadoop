@@ -10,7 +10,7 @@ import java.util.ArrayList;
  *
  * @author andjo
  */
-public interface MyMap {
+public interface NodoMap {
  
     /**
      *

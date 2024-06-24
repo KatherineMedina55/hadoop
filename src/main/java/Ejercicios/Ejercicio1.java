@@ -4,11 +4,11 @@
  */
 package Ejercicios;
 import Framerwork.Particionador;
-import Framerwork.MyMap;
 import Framerwork.MapReduce;
 import Framerwork.Tarea;
 import Framerwork.Tupla;
 import java.util.ArrayList;
+import Framerwork.NodoMap;
 
 /**
  *
@@ -18,7 +18,7 @@ public class Ejercicio1  {
 
     
     
-     static class Map implements MyMap {
+     static class Map implements NodoMap {
         @Override
         public void Map(Tupla elemento, ArrayList<Tupla> output) {
             String[] palabras = elemento.getValor().toString().split(" ");

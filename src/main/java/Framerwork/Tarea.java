@@ -18,7 +18,7 @@ public class Tarea {
     private String outputfile;
     private int numNodos;
 
-    private MyMap mapFunction;
+    private NodoMap mapFunction;
     private MapReduce reduceFunction;
     private Object combinerFunction;
      public Tarea() {
@@ -61,7 +61,7 @@ public class Tarea {
         gestionArchivo.guardarArchivo(resultado);
     }
 
-    public Tarea(String inputFile, String outputfile, int node, MyMap mapFunction, MapReduce reduceFunction, Object combinerFunction) {
+    public Tarea(String inputFile, String outputfile, int node, NodoMap mapFunction, MapReduce reduceFunction, Object combinerFunction) {
         this.inputFile = inputFile;
         this.outputfile = outputfile;
         this.numNodos = node;
@@ -82,7 +82,7 @@ public class Tarea {
         return numNodos;
     }
 
-    public MyMap getMapFunction() {
+    public NodoMap getMapFunction() {
         return mapFunction;
     }
 
@@ -106,7 +106,7 @@ public class Tarea {
         this.numNodos = node;
     }
 
-    public void setMapFunction(MyMap mapFunction) {
+    public void setMapFunction(NodoMap mapFunction) {
         this.mapFunction = mapFunction;
     }
 
