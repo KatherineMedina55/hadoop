@@ -25,6 +25,8 @@ public class Salida {
             File archivo = new File(ArchivoSalida);
             if (archivo.exists()) {
                 archivo.delete();
+            } else {
+                System.out.println("Archivo no existe, se creara uno nuevo.");
             }
             try (FileWriter escritor = new FileWriter(ArchivoSalida)) {
                 for (Tupla tupla : resultados) {
