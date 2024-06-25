@@ -11,21 +11,21 @@ import java.util.ArrayList;
  * @author andjo
  */
 public class Particionador {
-        private final ArrayList<Tupla> listaParticionada = new ArrayList<>();
+        private final ArrayList<ParClaveValor> listaParticionada = new ArrayList<>();
 
     public Particionador() {
     }
 
 
-    public void particionarBuffer(ArrayList<Tupla> listaTuplas, int numReducers) {
-        for (Tupla tupla : listaTuplas) {
+    public void particionarBuffer(ArrayList<ParClaveValor> listaTuplas, int numReducers) {
+        for (ParClaveValor tupla : listaTuplas) {
             int nodoReducer = tupla.getClave().hashCode() % numReducers;
-            listaParticionada.add(new Tupla(nodoReducer, tupla));
+            listaParticionada.add(new ParClaveValor(nodoReducer, tupla));
         }
     }
 
 
-     public ArrayList<Tupla> getListaParticionada() {
+     public ArrayList<ParClaveValor> getListaParticionada() {
         return listaParticionada;
     }
     

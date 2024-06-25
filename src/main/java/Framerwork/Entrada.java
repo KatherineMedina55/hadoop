@@ -25,9 +25,9 @@ public class Entrada {
     }
 
 
- public ArrayList<Tupla> leerYProcesarArchivo(int numeroNodos) {
+ public ArrayList<ParClaveValor> leerYProcesarArchivo(int numeroNodos) {
         System.out.println("Examinando archivo...");
-        ArrayList<Tupla> listaTuplas = new ArrayList<>();
+        ArrayList<ParClaveValor> listaTuplas = new ArrayList<>();
         StringBuilder contenidoArchivo = new StringBuilder();
         try {
             File archivo = new File(archivoEntrada);
@@ -39,7 +39,7 @@ public class Entrada {
                     }
                 } finally {
                     int hash = contenidoArchivo.toString().hashCode() % numeroNodos;
-                    listaTuplas.add(new Tupla(hash, contenidoArchivo.toString()));
+                    listaTuplas.add(new ParClaveValor(hash, contenidoArchivo.toString()));
                 }
             } else {
                 System.err.println("El archivo no existe: " + archivoEntrada);

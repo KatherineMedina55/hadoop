@@ -7,7 +7,7 @@ package Ejercicios;
 import Framerwork.MapReduce;
 import Framerwork.NodoMap;
 import Framerwork.Tarea;
-import Framerwork.Tupla;
+import Framerwork.ParClaveValor;
 import java.util.ArrayList;
 
 /**
@@ -20,20 +20,20 @@ public class Ejercicio4 {
         tarea1.setMapFunction(new NodoMap() {
 
             @Override
-            public void Map(Tupla elemento, ArrayList<Tupla> output) {
+            public void Map(ParClaveValor elemento, ArrayList<ParClaveValor> output) {
                 String[] line = elemento.getValor().toString().split(" ");
                 for (String item : line) {
                     String[] lineData = item.split(",");
                     if (!lineData[8].equals(lineData[12])) {
-                        output.add(new Tupla(item, 1));
+                        output.add(new ParClaveValor(item, 1));
                     }
                 }
             }
         });
         tarea1.setReduceFunction(new MapReduce() {
             @Override
-            public void reduce(Tupla elemento, ArrayList<Tupla> output) {
-                output.add(new Tupla(elemento.getClave(), ""));
+            public void reduce(ParClaveValor elemento, ArrayList<ParClaveValor> output) {
+                output.add(new ParClaveValor(elemento.getClave(), ""));
             }
         });
         tarea1.setInputFile("JCMB_last31days.csv");

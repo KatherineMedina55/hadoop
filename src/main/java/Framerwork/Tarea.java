@@ -36,15 +36,15 @@ public class Tarea {
 
         Particionador bfm = new Particionador();
          Ordenador O = new Ordenador();
-        ArrayList<Tupla> resultado = new ArrayList<>();
-        ArrayList<Tupla> Listabuffer  = EntradaArchivo.leerYProcesarArchivo(numNodos);
+        ArrayList<ParClaveValor> resultado = new ArrayList<>();
+        ArrayList<ParClaveValor> Listabuffer  = EntradaArchivo.leerYProcesarArchivo(numNodos);
      if (Listabuffer.isEmpty()){
             Logger.getAnonymousLogger().severe("No se ha podido cargar el archivo");
             return;
         }
         System.out.println("Iniciando proceso de Map");
-        for (Tupla tupla : Listabuffer) {
-            ArrayList<Tupla> output = new ArrayList<>();
+        for (ParClaveValor tupla : Listabuffer) {
+            ArrayList<ParClaveValor> output = new ArrayList<>();
             mapFunction.Map(tupla, output);
             bfm.particionarBuffer(output, this.numNodos);
         }
@@ -54,8 +54,8 @@ public class Tarea {
        
         System.out.println("Iniciando proceso de Reduce");
         for (NodoReduce bufferReducer : listaOrdenada) {
-            ArrayList<Tupla> listaTuplasReducer  = bufferReducer.getLstTuplas();
-            for (Tupla tuplaReducer : listaTuplasReducer ) {
+            ArrayList<ParClaveValor> listaTuplasReducer  = bufferReducer.getLstTuplas();
+            for (ParClaveValor tuplaReducer : listaTuplasReducer ) {
                 reduceFunction.reduce(tuplaReducer, resultado);
             }
         }

@@ -13,15 +13,15 @@ import java.util.function.BiFunction;
  */
 public class NodoReduce {
      private int numeroReducidores;
-    private ArrayList<Tupla> listaTuplas;
+    private ArrayList<ParClaveValor> listaTuplas;
 
- public NodoReduce(int numeroReducidores, ArrayList<Tupla> listaTuplas) {
+ public NodoReduce(int numeroReducidores, ArrayList<ParClaveValor> listaTuplas) {
         this.numeroReducidores = numeroReducidores;
         this.listaTuplas = listaTuplas;
     }
 
   
-    public int buscarTuplaEnLst(Tupla tupla) {
+    public int buscarTuplaEnLst(ParClaveValor tupla) {
         for (int i = 0; i < listaTuplas.size(); i++) {
             String claveTpTmp = ((String) (listaTuplas.get(i)).getClave());
             if (claveTpTmp.compareTo((String) tupla.getClave()) == 0) {
@@ -31,26 +31,26 @@ public class NodoReduce {
         return -1;
     }
 
-     public void agregarTuplaAlstTupla(Tupla nuevaTupla) {
+     public void agregarTuplaAlstTupla(ParClaveValor nuevaTupla) {
         int indice = buscarTuplaEnLst(nuevaTupla);
         if (indice != -1) {
-            Tupla tuplaExistente = listaTuplas.get(indice);
+            ParClaveValor tuplaExistente = listaTuplas.get(indice);
             ArrayList<Object> valores = (ArrayList<Object>) tuplaExistente.getValor();
             valores.add(nuevaTupla.getValor());
-            listaTuplas.set(indice, new Tupla(nuevaTupla.getClave(), valores));
+            listaTuplas.set(indice, new ParClaveValor(nuevaTupla.getClave(), valores));
         } else {
             ArrayList<Object> valores = new ArrayList<>();
             valores.add(nuevaTupla.getValor());
-            listaTuplas.add(new Tupla(nuevaTupla.getClave(), valores));
+            listaTuplas.add(new ParClaveValor(nuevaTupla.getClave(), valores));
         }
     }
       public void ejecutarReduce(BiFunction<Object, List<Object>, Object> reduceFunction) {
-        ArrayList<Tupla> resultados = new ArrayList<>();
-        for (Tupla tupla : listaTuplas) {
+        ArrayList<ParClaveValor> resultados = new ArrayList<>();
+        for (ParClaveValor tupla : listaTuplas) {
             String clave = (String) tupla.getClave();
             List<Object> valores = (List<Object>) tupla.getValor();
             Object resultado = reduceFunction.apply(clave, valores);
-            resultados.add(new Tupla(clave, resultado));
+            resultados.add(new ParClaveValor(clave, resultado));
         }
         listaTuplas = resultados;
     }
@@ -59,7 +59,7 @@ public class NodoReduce {
         return numeroReducidores;
     }
 
-    public ArrayList<Tupla> getLstTuplas() {
+    public ArrayList<ParClaveValor> getLstTuplas() {
         return listaTuplas;
     } 
 }

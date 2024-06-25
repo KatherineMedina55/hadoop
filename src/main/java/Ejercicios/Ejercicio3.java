@@ -7,7 +7,7 @@ package Ejercicios;
 import Framerwork.MapReduce;
 import Framerwork.NodoMap;
 import Framerwork.Tarea;
-import Framerwork.Tupla;
+import Framerwork.ParClaveValor;
 import java.util.ArrayList;
 
 /**
@@ -20,16 +20,16 @@ public class Ejercicio3 {
      static class map1 implements NodoMap {
         /**
          * Guarda en la lista las horas.
-         * @param elemento Tupla
+         * @param elemento ParClaveValor
          * @param output  .
          */
         @Override
-        public void Map(Tupla elemento, ArrayList<Tupla> output) {
+        public void Map(ParClaveValor elemento, ArrayList<ParClaveValor> output) {
             String[] words = ((elemento.getValor())).toString().split(" ");
             for (String wordss : words) {
                 if (wordss.startsWith("[") && wordss.endsWith("]")) {
                     String hora = wordss.split(":")[1];
-                    output.add(new Tupla(hora, 1));
+                    output.add(new ParClaveValor(hora, 1));
                 }
             }
         }
@@ -39,18 +39,18 @@ public class Ejercicio3 {
         /**
          * Cuenta las horas
          *
-         * @param elemento Tupla
+         * @param elemento ParClaveValor
          * @param output   .
          */
         @Override
-        public void reduce(Tupla elemento, ArrayList<Tupla> output) {
+        public void reduce(ParClaveValor elemento, ArrayList<ParClaveValor> output) {
             ArrayList<Integer> list = (ArrayList<Integer>) elemento.getValor();
             int count = 0;
             for (Integer item : list) {
                 count += item;
             }
 
-            output.add(new Tupla(elemento.getClave(), count));
+            output.add(new ParClaveValor(elemento.getClave(), count));
         }
     }
 

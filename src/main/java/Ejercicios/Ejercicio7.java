@@ -9,7 +9,7 @@ package Ejercicios;
 import Framerwork.Particionador;
 import Framerwork.MapReduce;
 import Framerwork.Tarea;
-import Framerwork.Tupla;
+import Framerwork.ParClaveValor;
 import java.util.ArrayList;
 import Framerwork.NodoMap;
 /**
@@ -22,13 +22,13 @@ public class Ejercicio7 {
         tarea.setMapFunction(new NodoMap() {
 
             @Override
-            public void Map(Tupla elemento, ArrayList<Tupla> output) {
+            public void Map(ParClaveValor elemento, ArrayList<ParClaveValor> output) {
                 String[] line = elemento.getValor().toString().split(" ");
                 for (String item : line) {
                     String[] lineData = item.split("\\t");
                     double happiness_average = Double.parseDouble(lineData[2]);
                     if (happiness_average < 2 && !lineData[4].equals("--")) {
-                        output.add(new Tupla("palabras_extremadamente_triste", 1));
+                        output.add(new ParClaveValor("palabras_extremadamente_triste", 1));
                     }
                 }
             }
@@ -36,13 +36,13 @@ public class Ejercicio7 {
         tarea.setReduceFunction(new MapReduce() {
 
             @Override
-            public void reduce(Tupla elemento, ArrayList<Tupla> output) {
+            public void reduce(ParClaveValor elemento, ArrayList<ParClaveValor> output) {
                 ArrayList<Integer> list = (ArrayList<Integer>) elemento.getValor();
                 int count = 0;
                 for (Integer item : list) {
                     count += item;
                 }
-                output.add(new Tupla(elemento.getClave(), count));
+                output.add(new ParClaveValor(elemento.getClave(), count));
             }
         });
         tarea.setInputFile("happiness.txt");

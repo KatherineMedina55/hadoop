@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public interface NodoMap {
  
 
-    public void Map(Tupla elemento, ArrayList<Tupla> output);
+    public void Map(ParClaveValor elemento, ArrayList<ParClaveValor> output);
    
     
 }

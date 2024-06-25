@@ -20,7 +20,7 @@ public class Salida {
         this.ArchivoSalida = "./data/ejercicios/" + outputfile;
     }
 
-    public void guardarArchivo(ArrayList<Tupla> resultados) {
+    public void guardarArchivo(ArrayList<ParClaveValor> resultados) {
         try {
             File archivo = new File(ArchivoSalida);
             if (archivo.exists()) {
@@ -29,7 +29,7 @@ public class Salida {
                 System.out.println("Archivo no existe, se creara uno nuevo.");
             }
             try (FileWriter escritor = new FileWriter(ArchivoSalida)) {
-                for (Tupla tupla : resultados) {
+                for (ParClaveValor tupla : resultados) {
                     escritor.write(tupla.getClave() + " " + tupla.getValor() + "\n");
                 }
             }

@@ -7,7 +7,7 @@ package Ejercicios;
 import Framerwork.MapReduce;
 import Framerwork.NodoMap;
 import Framerwork.Tarea;
-import Framerwork.Tupla;
+import Framerwork.ParClaveValor;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -22,11 +22,11 @@ public class Ejercicio6 {
         tarea1.setMapFunction(new NodoMap() {
             /**
              * calcula la temperatura en superficie mínima y máxima
-             * @param elemento Tupla
+             * @param elemento ParClaveValor
              * @param output   ArrayList que permite agregar las tuplas que queremos.
              */
             @Override
-                public void Map(Tupla elemento, ArrayList<Tupla> output) {
+                public void Map(ParClaveValor elemento, ArrayList<ParClaveValor> output) {
                 String[] line = elemento.getValor().toString().split(" ");
                 List<Double> listNumeros = new ArrayList<>();
                 for (String item : line) {
@@ -36,13 +36,13 @@ public class Ejercicio6 {
                 }
                 double min = Collections.min(listNumeros);
                 double max = Collections.max(listNumeros);
-                output.add(new Tupla("min", min));
-                output.add(new Tupla("max", max));
+                output.add(new ParClaveValor("min", min));
+                output.add(new ParClaveValor("max", max));
             }
         });
         tarea1.setReduceFunction(new MapReduce() {
             @Override
-            public void reduce(Tupla elemento, ArrayList<Tupla> output) {
+            public void reduce(ParClaveValor elemento, ArrayList<ParClaveValor> output) {
                 output.add(elemento);
             }
         });

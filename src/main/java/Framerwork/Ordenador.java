@@ -20,11 +20,11 @@ public class Ordenador {
         return listaOrdenada;
     }
 
-    public void ordenarBuffer(ArrayList<Tupla> listaParticionada) {
-        for (Tupla particion : listaParticionada) {
+    public void ordenarBuffer(ArrayList<ParClaveValor> listaParticionada) {
+        for (ParClaveValor particion : listaParticionada) {
             int clave = (int) particion.getClave();
             int posicion = buscarBufferReducer(clave);
-            Tupla valorTupla = (Tupla) particion.getValor();
+            ParClaveValor valorTupla = (ParClaveValor) particion.getValor();
 
             if (posicion != -1) { // Si se encuentra la posición de la tupla
                 NodoReduce bufferReducer = listaOrdenada.get(posicion);
@@ -33,8 +33,8 @@ public class Ordenador {
             } else { // Si no se encuentra, se agrega como una nueva entrada
                 ArrayList<Object> valoresTemporales = new ArrayList<>();
                 valoresTemporales.add(valorTupla.getValor());
-                ArrayList<Tupla> nuevaListaTuplas = new ArrayList<>();
-                nuevaListaTuplas.add(new Tupla(valorTupla.getClave(), valoresTemporales));
+                ArrayList<ParClaveValor> nuevaListaTuplas = new ArrayList<>();
+                nuevaListaTuplas.add(new ParClaveValor(valorTupla.getClave(), valoresTemporales));
                 listaOrdenada.add(new NodoReduce(clave, nuevaListaTuplas));
             }
         }

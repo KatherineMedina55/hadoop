@@ -8,12 +8,12 @@ package Framerwork;
  *
  * @author andjo
  */
-public class Tupla {
+public class ParClaveValor {
     
     private Object clave;
     private Object valor;
 
-    public Tupla(Object clave, Object valor) {
+    public ParClaveValor(Object clave, Object valor) {
         this.clave = clave;
         this.valor = valor;
     }
