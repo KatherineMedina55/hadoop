@@ -15,47 +15,44 @@ import java.util.ArrayList;
  * @author andjo
  */
 public class Ejercicio2 {
-     static class map1 implements NodoMap  {
+     static class GifMap  implements NodoMap  {
         /**
          * Guarda en la lista output los ".gif" con un valor 1
          *
-         * @param elemento Tupla
-         * @param output   ArrayList que permite agregar las tuplas que queremos.
+         * @param tuplaEntrada Tupla
+         * @param listaSalida   ArrayList que permite agregar las tuplas que queremos.
          */
         @Override
-        public void Map(Tupla elemento, ArrayList<Tupla> output) {
-            String[] words = ((elemento.getValor())).toString().split(" ");
-            for (String w : words) {
+        public void Map(Tupla tuplaEntrada, ArrayList<Tupla> listaSalida) {
+            String[] palabras  = ((tuplaEntrada.getValor())).toString().split(" ");
+            for (String palabra  : palabras ) {
                 // Remove punctuation and convert to lowercase
-                String new_w = w.toLowerCase();
-                if (new_w.contains(".gif"))// Compara si cada texto existe la ".gif2
-                    output.add(new Tupla("gif", 1));
+                String palabraLimpia  = palabra.toLowerCase();
+                if (palabraLimpia.contains(".gif"))// Compara si cada texto existe la ".gif2
+                    listaSalida.add(new Tupla("gif", 1));
             }
         }
     }
 
-    static class reduce implements MapReduce {
-        /**
-         * Cuenta cuantas 404 en la lista de tuplas ordenadas.
+    static class SumReduce  implements MapReduce {
+       /**
+         * Cuenta cuántos ".gif" hay en la lista de tuplas ordenadas.
          *
-         * @param elemento Tupla
-         * @param output   ArrayList que permite agregar las tuplas que queremo, en la cual será el resultado.
+         * @param tuplaClaveValores Tupla que contiene la clave y la lista de valores asociados.
+         * @param listaSalida   ArrayList que permite agregar las tuplas que queremos, en la cual será el resultado.
          */
         @Override
-        public void reduce(Tupla elemento, ArrayList<Tupla> output) {
-            ArrayList<Integer> list = (ArrayList<Integer>) elemento.getValor();
-            int count = 0;
-            for (Integer item : list) {
-                count += item;
-            }
-            output.add(new Tupla(elemento.getClave(), count));
+        public void reduce(Tupla tuplaClaveValores, ArrayList<Tupla> listaSalida) {
+            ArrayList<Integer> listaValores = (ArrayList<Integer>) tuplaClaveValores.getValor();
+            int totalGif = listaValores.stream().mapToInt(Integer::intValue).sum();
+            listaSalida.add(new Tupla(tuplaClaveValores.getClave(), totalGif));
         }
     }
 
     public static void main(String[] args) {
         Tarea tarea1 = new Tarea();
-        tarea1.setReduceFunction(new reduce());
-        tarea1.setMapFunction(new map1());
+        tarea1.setReduceFunction(new SumReduce ());
+        tarea1.setMapFunction(new GifMap ());
         tarea1.setInputFile("weblog.txt");
         tarea1.setOutputfile("Ejercicio2.txt");
         tarea1.setNode(2);
