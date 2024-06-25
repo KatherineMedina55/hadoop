@@ -12,11 +12,7 @@ import java.util.ArrayList;
  */
 public interface NodoMap {
  
-    /**
-     *
-     * @param elemento
-     * @param output
-     */
+
     public void Map(Tupla elemento, ArrayList<Tupla> output);
    
     

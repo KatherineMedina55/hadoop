@@ -1,0 +1,54 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package Ejercicios;
+
+import Framerwork.MapReduce;
+import Framerwork.NodoMap;
+import Framerwork.Tarea;
+import Framerwork.Tupla;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+/**
+ *
+ * @author andjo
+ */
+public class Ejercicio6 {
+    public static void main(String[] args) {
+        Tarea tarea1 = new Tarea();
+        tarea1.setMapFunction(new NodoMap() {
+            /**
+             * calcula la temperatura en superficie mínima y máxima
+             * @param elemento Tupla
+             * @param output   ArrayList que permite agregar las tuplas que queremos.
+             */
+            @Override
+                public void Map(Tupla elemento, ArrayList<Tupla> output) {
+                String[] line = elemento.getValor().toString().split(" ");
+                List<Double> listNumeros = new ArrayList<>();
+                for (String item : line) {
+                    String[] lineData = item.split(",");
+                    double temp = Double.parseDouble(lineData[8]);
+                    listNumeros.add(temp);
+                }
+                double min = Collections.min(listNumeros);
+                double max = Collections.max(listNumeros);
+                output.add(new Tupla("min", min));
+                output.add(new Tupla("max", max));
+            }
+        });
+        tarea1.setReduceFunction(new MapReduce() {
+            @Override
+            public void reduce(Tupla elemento, ArrayList<Tupla> output) {
+                output.add(elemento);
+            }
+        });
+        tarea1.setInputFile("JCMB_last31days.csv");
+        tarea1.setOutputfile("Ejercicio6.txt");
+        tarea1.setNode(30);
+        tarea1.run();
+    }
+}

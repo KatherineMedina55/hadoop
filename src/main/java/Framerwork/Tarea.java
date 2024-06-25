@@ -31,11 +31,13 @@ public class Tarea {
         combinerFunction = "";
     }
       public void run() {
-        EntradaSalidaArchivos gestionArchivo  = new EntradaSalidaArchivos(this.inputFile, this.outputfile);
+        Entrada EntradaArchivo  = new Entrada( this.inputFile);
+          Salida SalidaArchivo  = new Salida( this.outputfile);
 
         Particionador bfm = new Particionador();
+         Ordenador O = new Ordenador();
         ArrayList<Tupla> resultado = new ArrayList<>();
-        ArrayList<Tupla> Listabuffer  = gestionArchivo.crearBufferMaps(numNodos);
+        ArrayList<Tupla> Listabuffer  = EntradaArchivo.leerYProcesarArchivo(numNodos);
      if (Listabuffer.isEmpty()){
             Logger.getAnonymousLogger().severe("No se ha podido cargar el archivo");
             return;
@@ -47,8 +49,8 @@ public class Tarea {
             bfm.particionarBuffer(output, this.numNodos);
         }
         System.out.println("Iniciando proceso de Ordenamiento");
-        bfm.ordenarBuffer();
-        ArrayList<NodoReduce> listaOrdenada = bfm.obtenerListaOrdenada();
+        O.ordenarBuffer(bfm.getListaParticionada());
+        ArrayList<NodoReduce> listaOrdenada = O.getListaOrdenada();
        
         System.out.println("Iniciando proceso de Reduce");
         for (NodoReduce bufferReducer : listaOrdenada) {
@@ -58,7 +60,7 @@ public class Tarea {
             }
         }
         System.out.println("Guardando los datos en " + outputfile);
-        gestionArchivo.guardarArchivo(resultado);
+        SalidaArchivo.guardarArchivo(resultado);
     }
 
     public Tarea(String inputFile, String outputfile, int node, NodoMap mapFunction, MapReduce reduceFunction, Object combinerFunction) {

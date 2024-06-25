@@ -6,6 +6,7 @@ package Framerwork;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BiFunction;
 /**
  *
  * @author andjo
@@ -42,6 +43,16 @@ public class NodoReduce {
             valores.add(nuevaTupla.getValor());
             listaTuplas.add(new Tupla(nuevaTupla.getClave(), valores));
         }
+    }
+      public void ejecutarReduce(BiFunction<Object, List<Object>, Object> reduceFunction) {
+        ArrayList<Tupla> resultados = new ArrayList<>();
+        for (Tupla tupla : listaTuplas) {
+            String clave = (String) tupla.getClave();
+            List<Object> valores = (List<Object>) tupla.getValor();
+            Object resultado = reduceFunction.apply(clave, valores);
+            resultados.add(new Tupla(clave, resultado));
+        }
+        listaTuplas = resultados;
     }
 
     public int getNumReducer() {

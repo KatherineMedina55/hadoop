@@ -15,25 +15,24 @@ import java.util.ArrayList;
  *
  * @author andjo
  */
-public class EntradaSalidaArchivos {
-       String inputFile;
-    String outputfile;
+public class Entrada {
+       String archivoEntrada;
+    
 
-    public EntradaSalidaArchivos(String inputFile, String output) {
-        super();
-        this.inputFile = "./data/" + inputFile;
-        this.outputfile = "./data/ejercicios/" + output;
+    public Entrada(String inputFile) {
+        this.archivoEntrada = "./data/" + inputFile;
+        
     }
 
 
- public ArrayList<Tupla> crearBufferMaps(int numeroNodos) {
+ public ArrayList<Tupla> leerYProcesarArchivo(int numeroNodos) {
         System.out.println("Examinando archivo...");
         ArrayList<Tupla> listaTuplas = new ArrayList<>();
         StringBuilder contenidoArchivo = new StringBuilder();
         try {
-            File archivo = new File(inputFile);
+            File archivo = new File(archivoEntrada);
             if (archivo.exists()) {
-                try (BufferedReader lector = new BufferedReader(new FileReader(inputFile))) {
+                try (BufferedReader lector = new BufferedReader(new FileReader(archivoEntrada))) {
                     String linea;
                     while ((linea = lector.readLine()) != null) {
                         contenidoArchivo.append(linea.trim()).append(" ");
@@ -42,30 +41,14 @@ public class EntradaSalidaArchivos {
                     int hash = contenidoArchivo.toString().hashCode() % numeroNodos;
                     listaTuplas.add(new Tupla(hash, contenidoArchivo.toString()));
                 }
+            } else {
+                System.err.println("El archivo no existe: " + archivoEntrada);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
         return listaTuplas;
     }
-
-
-    public void guardarArchivo(ArrayList<Tupla> resultados) {
-        try {
-            File archivo = new File(outputfile);
-            if (archivo.exists()) {
-                archivo.delete();
-            }
-            try (FileWriter escritor = new FileWriter(outputfile)) {
-                for (Tupla tupla : resultados) {
-                    escritor.write(tupla.getClave() + " " + tupla.getValor() + "\n");
-                }
-            }
-            System.out.println("Archivo guardado exitosamente.");
-        } catch (IOException e) {
-            System.out.println("Error al escribir el archivo.");
-            e.printStackTrace();
-        }
-    }
+  
 }
 
