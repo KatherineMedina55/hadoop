@@ -1,8 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
 
 package Framerwork;
 import java.io.File;
@@ -29,8 +24,8 @@ public class Salida {
                 System.out.println("Archivo no existe, se creara uno nuevo.");
             }
             try (FileWriter escritor = new FileWriter(ArchivoSalida)) {
-                for (ParClaveValor tupla : resultados) {
-                    escritor.write(tupla.getClave() + " " + tupla.getValor() + "\n");
+                for (ParClaveValor parClaveValor : resultados) {
+                    escritor.write(parClaveValor.getClave() + " " + parClaveValor.getValor() + "\n");
                 }
             }
             System.out.println("Archivo guardado exitosamente.");

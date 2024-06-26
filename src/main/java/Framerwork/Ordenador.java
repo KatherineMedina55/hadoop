@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Framerwork;
 
 import java.util.ArrayList;
@@ -24,17 +21,17 @@ public class Ordenador {
         for (ParClaveValor particion : listaParticionada) {
             int clave = (int) particion.getClave();
             int posicion = buscarBufferReducer(clave);
-            ParClaveValor valorTupla = (ParClaveValor) particion.getValor();
+            ParClaveValor valorParClaveValor = (ParClaveValor) particion.getValor();
 
             if (posicion != -1) { // Si se encuentra la posición de la tupla
                 NodoReduce bufferReducer = listaOrdenada.get(posicion);
-                bufferReducer.agregarTuplaAlstTupla(valorTupla);
+                bufferReducer.agregarTuplaAlstTupla(valorParClaveValor);
                 listaOrdenada.set(posicion, bufferReducer);
             } else { // Si no se encuentra, se agrega como una nueva entrada
                 ArrayList<Object> valoresTemporales = new ArrayList<>();
-                valoresTemporales.add(valorTupla.getValor());
+                valoresTemporales.add(valorParClaveValor.getValor());
                 ArrayList<ParClaveValor> nuevaListaTuplas = new ArrayList<>();
-                nuevaListaTuplas.add(new ParClaveValor(valorTupla.getClave(), valoresTemporales));
+                nuevaListaTuplas.add(new ParClaveValor(valorParClaveValor.getClave(), valoresTemporales));
                 listaOrdenada.add(new NodoReduce(clave, nuevaListaTuplas));
             }
         }
